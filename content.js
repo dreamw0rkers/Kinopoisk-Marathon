@@ -33,7 +33,6 @@ function showToast(message) {
     targetParent.appendChild(toastContainer);
   }
 
-  // Ограничиваем количество уведомлений до 3
   while (toastContainer.children.length >= 3) {
     toastContainer.firstElementChild.remove();
   }
@@ -89,7 +88,7 @@ function attachVideoListeners(video) {
 
 // 3. Умная авто-пауза при смене вкладки
 document.addEventListener('visibilitychange', () => {
-  if (!chrome.runtime || !chrome.runtime.id) return;
+  if (!chrome.runtime?.id) return;
 
   chrome.storage.local.get(['autoPause'], (res) => {
     if (chrome.runtime.lastError || !res || !res.autoPause) return;
@@ -116,9 +115,18 @@ document.addEventListener('visibilitychange', () => {
   });
 });
 
-// 4. Основная логика авто-пропуска
+// 4. Безопасное обновление счётчика (атомарная операция)
+function incrementSkippedCount() {
+  chrome.storage.local.get(['skippedCount'], (result) => {
+    if (chrome.runtime.lastError) return;
+    const current = (result && result.skippedCount) || 0;
+    chrome.storage.local.set({ skippedCount: current + 1 });
+  });
+}
+
+// 5. Основная логика авто-пропуска
 function skipEverything() {
-  if (isSkipping || !chrome.runtime || !chrome.runtime.id) return;
+  if (isSkipping || !chrome.runtime?.id) return;
 
   chrome.storage.local.get(['isEnabled'], (res) => {
     if (chrome.runtime.lastError || !res || res.isEnabled === false) return;
@@ -148,7 +156,11 @@ function skipEverything() {
 
         const btnText = (btn.textContent || btn.getAttribute('aria-label') || '').toLowerCase();
         const isSkipOrNext = btnText.includes('пропустить') || btnText.includes('следующая серия');
-        const isVisible = !!(btn.offsetWidth || btn.offsetHeight || btn.getClientRects().length);
+        
+        // ИСПРАВЛЕНИЕ: Полная и точная проверка видимости
+        const style = window.getComputedStyle(btn);
+        const isVisible = (btn.offsetWidth > 0 || btn.offsetHeight > 0 || btn.getClientRects().length > 0) &&
+                          style.display !== 'none' && style.visibility !== 'hidden';
 
         if (isVisible && isSkipOrNext) {
           isSkipping = true;
@@ -159,16 +171,14 @@ function skipEverything() {
           console.log('[Кинопоиск Марафон] Автоклик:', btnText.trim());
 
           showToast(actionName);
+          
+          // Обновляем счётчик без потери данных
+          incrementSkippedCount();
 
-          chrome.storage.local.get(['skippedCount'], (result) => {
-            if (chrome.runtime.lastError) return;
-            const currentCount = (result && result.skippedCount) || 0;
-            chrome.storage.local.set({ skippedCount: currentCount + 1 });
-          });
-
+          // ИСПРАВЛЕНИЕ: Таймер сокращён до 500 мс для мгновенной реакции на новые кнопки
           setTimeout(() => {
             isSkipping = false;
-          }, 2000);
+          }, 500);
 
           break;
         }
@@ -177,7 +187,7 @@ function skipEverything() {
   });
 }
 
-// 5. Оптимизированный MutationObserver (Троттлинг 300 мс)
+// 6. Оптимизированный MutationObserver (Троттлинг 300 мс)
 const observer = new MutationObserver((mutations) => {
   const isToastMutation = mutations.every((m) => {
     return m.target && (
@@ -202,4 +212,6 @@ const observer = new MutationObserver((mutations) => {
 });
 
 // Инициализация наблюдения
-observer.observe(document.body, { childList: true, subtree: true });
+if (document.body) {
+  observer.observe(document.body, { childList: true, subtree: true });
+}

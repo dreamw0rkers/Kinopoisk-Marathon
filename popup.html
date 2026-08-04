@@ -1,143 +1,318 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <style>
-    body {
-      width: 240px;
-      font-family: system-ui, -apple-system, sans-serif;
-      margin: 0;
-      padding: 16px;
-      background-color: #18181a;
-      color: #ffffff;
-      box-sizing: border-box;
-    }
-    .header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .header img {
-      width: 24px;
-      height: 24px;
-    }
-    .title {
-      font-size: 14px;
-      font-weight: bold;
-    }
-    .card {
-      background: #232328;
-      border-radius: 8px;
-      padding: 12px;
-      border: 1px solid #33333c;
-      margin-bottom: 10px;
-    }
-    .toggle-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-    .toggle-row:last-child {
-      margin-bottom: 0;
-    }
-    .label-text {
-      font-size: 13px;
-      font-weight: 500;
-    }
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 36px;
-      height: 20px;
-    }
-    .switch input {
-      opacity: 0;
-      width: 0; height: 0;
-    }
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #3e3e48;
-      transition: .3s;
-      border-radius: 20px;
-    }
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 14px;
-      width: 14px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: .3s;
-      border-radius: 50%;
-    }
-    input:checked + .slider {
-      background-color: #ffcc00;
-    }
-    input:checked + .slider:before {
-      transform: translateX(16px);
-    }
-    .counter-card {
-      text-align: center;
-    }
-    .count-val {
-      font-size: 26px;
-      font-weight: 800;
-      color: #ffffff;
-      margin: 2px 0;
-    }
-    .count-label {
-      font-size: 11px;
-      color: #8a8a93;
-      margin-bottom: 10px;
-    }
-    .reset-btn {
-      background: transparent;
-      border: 1px solid #44444e;
-      color: #aaa;
-      border-radius: 6px;
-      padding: 4px 10px;
-      font-size: 11px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .reset-btn:hover {
-      background: #33333c;
-      color: #fff;
-    }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <img src="icon.png" alt="logo">
-    <div class="title">Кинопоиск Марафон</div>
-  </div>
+<meta charset="UTF-8">
+<title>Кинопоиск Марафон</title>
+<style>
+  :root {
+    --bg: #0c0c0e;
+    --card: #17171b;
+    --card-2: #1c1c21;
+    --border: #29292f;
+    --accent: #ff7a1a;
+    --accent-2: #ffb020;
+    --text: #f5f5f2;
+    --text-dim: #8b8b93;
+    --glow: rgba(255, 122, 26, 0.35);
+  }
 
-  <div class="card">
-    <div class="toggle-row">
-      <span class="label-text">Режим марафона</span>
+  * { box-sizing: border-box; }
+
+  body {
+    width: 288px;
+    margin: 0;
+    padding: 0 0 14px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* --- signature element: perforation edge --- */
+ 
+  .content { padding: 16px 16px 0; }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .header img {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    flex-shrink: 0;
+  }
+  .brand-name {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    line-height: 1.25;
+    text-transform: uppercase;
+  }
+  .brand-name .accent { color: var(--accent); }
+  .tagline {
+    font-size: 10.5px;
+    color: var(--text-dim);
+    margin-top: 1px;
+  }
+
+  /* --- hero toggle --- */
+  .hero {
+    position: relative;
+    background: linear-gradient(160deg, var(--card-2), var(--card));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    transition: border-color .3s ease, box-shadow .3s ease;
+  }
+  .hero.on {
+    border-color: rgba(255, 122, 26, 0.55);
+    box-shadow: 0 0 0 1px rgba(255,122,26,0.12), 0 8px 20px -6px var(--glow);
+    animation: pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 1px rgba(255,122,26,0.12), 0 8px 20px -6px var(--glow); }
+    50% { box-shadow: 0 0 0 1px rgba(255,122,26,0.2), 0 8px 26px -4px var(--glow); }
+  }
+  .hero-text { min-width: 0; }
+  .hero-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .hero-status {
+    font-size: 11px;
+    margin-top: 2px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    flex-shrink: 0;
+    transition: background .3s ease, box-shadow .3s ease;
+  }
+  .hero.on .dot {
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+  }
+  .hero.on .hero-status { color: var(--accent-2); }
+
+    .card.on {
+    border-color: rgba(255, 122, 26, 0.55);
+    box-shadow: 0 0 0 1px rgba(255,122,26,0.12), 0 8px 20px -6px var(--glow);
+    animation: pulse 6.6s ease-in-out infinite;
+  }
+
+  /* --- switches --- */
+  .switch {
+    position: relative;
+    width: 40px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    inset: 0;
+    background: #33333a;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background .25s ease;
+  }
+  .slider::before {
+    content: "";
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    top: 3px;
+    background: #e9e9ea;
+    border-radius: 50%;
+    transition: transform .25s ease, background .25s ease;
+  }
+  input:checked + .slider {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  }
+  input:checked + .slider::before {
+    transform: translateX(18px);
+    background: #14140f;
+  }
+  input:focus-visible + .slider {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 2px;
+  }
+
+  /* --- secondary card --- */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .row-text { min-width: 0; }
+  .row-title {
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+  .row-desc {
+    font-size: 10.5px;
+    color: var(--text-dim);
+    margin-top: 2px;
+    line-height: 1.35;
+  }
+
+  /* --- counter card --- */
+  .counter-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 14px 13px;
+    text-align: center;
+  }
+  .reel-wrap {
+    position: relative;
+    width: 78px;
+    height: 78px;
+    margin: 0 auto 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .reel-wrap svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    animation: spin 40s linear infinite;
+    opacity: 0.55;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reel-wrap svg { animation: none; }
+    .hero.on { animation: none; }
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .count-val {
+    position: relative;
+    font-size: 28px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(135deg, #fff, var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1;
+  }
+  .count-label {
+    font-size: 10.5px;
+    color: var(--text-dim);
+    margin-top: 8px;
+    margin-bottom: 12px;
+  }
+  .reset-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    border-radius: 7px;
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s ease;
+  }
+  .reset-btn:hover {
+    background: var(--card-2);
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .reset-btn:active { transform: scale(0.97); }
+
+  .footer {
+    text-align: center;
+    font-size: 9.5px;
+    color: #4d4d54;
+    margin-top: 12px;
+    letter-spacing: 0.03em;
+  }
+    body.no-transition * {
+    transition: none !important;
+    animation: none !important;
+  }
+</style>
+</head>
+<body class="no-transition">
+
+
+  <div class="content">
+    <div class="header">
+      <img src="icon.png" alt="">
+      <div>
+        <div class="brand-name">Кинопоиск<br><span class="accent">Марафон</span></div>
+        <div class="tagline">нон-стоп просмотр без пауз</div>
+      </div>
+    </div>
+
+    <div class="hero" id="heroCard" style="transition: none !important; animation: none !important;">
+      <div class="hero-text">
+        <div class="hero-title">Режим марафона</div>
+        <div class="hero-status"><span class="dot"></span><span id="heroStatusText">выключен</span></div>
+      </div>
       <label class="switch">
         <input type="checkbox" id="toggleState" checked>
         <span class="slider"></span>
       </label>
     </div>
-    <div class="toggle-row">
-      <span class="label-text">Пауза при уходе</span>
-      <label class="switch">
-        <input type="checkbox" id="autoPauseState">
-        <span class="slider"></span>
-      </label>
-    </div>
-  </div>
 
-  <div class="card counter-card">
-    <div class="count-val" id="skipCount">0</div>
-    <div class="count-label">пропущено реклам / заставок</div>
-    <button class="reset-btn" id="resetBtn">Сбросить счетчик</button>
+        <div class="card" id="smartPauseCard">
+      <div class="row">
+        <div class="row-text">
+          <div class="row-title">Умная пауза</div>
+          <div class="row-desc">Останавливает видео при уходе с вкладки</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="autoPauseState">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="counter-card">
+      <div class="reel-wrap">
+        <svg viewBox="0 0 78 78" fill="none">
+          <circle cx="39" cy="39" r="36" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="2 6"/>
+        </svg>
+        <div class="count-val" id="skipCount">0</div>
+      </div>
+      <div class="count-label">пропущено заставок / титров</div>
+      <button class="reset-btn" id="resetBtn">Сбросить счётчик</button>
+    </div>
+
+    <div class="footer">KINOPOISK MARATHON · v1.2.0</div>
   </div>
 
   <script src="popup.js"></script>
