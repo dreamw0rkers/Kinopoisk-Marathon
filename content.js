@@ -1,8 +1,11 @@
+// Флаги состояния
 let isProcessing = false;
 let isSkipping = false;
-let pausedByTabSwitch = false; // Флаг: ставило ли именно расширение паузу
+let pausedByTabSwitch = false;
+let pausedByUser = false;
+let lastScanTime = 0;
 
-// 1. Оранжевые Toast-уведомления (работают везде, включая Fullscreen)
+// 1. Оранжевые Toast-уведомления с защитой от переполнения DOM
 function showToast(message) {
   const targetParent = document.fullscreenElement 
                     || document.querySelector('[class*="PlayerContainer"]') 
@@ -30,6 +33,11 @@ function showToast(message) {
     targetParent.appendChild(toastContainer);
   }
 
+  // Ограничиваем количество уведомлений до 3
+  while (toastContainer.children.length >= 3) {
+    toastContainer.firstElementChild.remove();
+  }
+
   const toast = document.createElement('div');
   toast.style.cssText = `
     background: #ff7b00;
@@ -41,7 +49,7 @@ function showToast(message) {
     font-weight: 600;
     box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(-10px);
     transition: all 0.3s ease;
   `;
   toast.textContent = `🍿 ${message}`;
@@ -55,44 +63,65 @@ function showToast(message) {
 
   setTimeout(() => {
     toast.style.opacity = '0';
-    toast.style.transform = 'translateY(10px)';
+    toast.style.transform = 'translateY(-10px)';
     setTimeout(() => toast.remove(), 300);
   }, 2200);
 }
 
-// 2. Умная авто-пауза при смене вкладки
+// 2. Отслеживание ручной паузы пользователя
+function attachVideoListeners(video) {
+  if (video.dataset.kpListenersAttached) return;
+  video.dataset.kpListenersAttached = 'true';
+
+  video.addEventListener('pause', () => {
+    if (!document.hidden && !pausedByTabSwitch) {
+      pausedByUser = true;
+    }
+  });
+
+  video.addEventListener('play', () => {
+    if (!document.hidden) {
+      pausedByUser = false;
+      pausedByTabSwitch = false;
+    }
+  });
+}
+
+// 3. Умная авто-пауза при смене вкладки
 document.addEventListener('visibilitychange', () => {
   if (!chrome.runtime || !chrome.runtime.id) return;
 
   chrome.storage.local.get(['autoPause'], (res) => {
-    if (!res.autoPause) return;
+    if (chrome.runtime.lastError || !res || !res.autoPause) return;
 
     const video = document.querySelector('video');
     if (!video) return;
 
+    attachVideoListeners(video);
+
     if (document.hidden) {
-      // Пользователь ушёл с вкладки
       if (!video.paused) {
         video.pause();
         pausedByTabSwitch = true;
       }
     } else {
-      // Пользователь вернулся на вкладку
-      if (pausedByTabSwitch) {
+      if (pausedByTabSwitch && !pausedByUser) {
         video.play().catch(() => {});
         pausedByTabSwitch = false;
         showToast('Продолжаем просмотр');
+      } else {
+        pausedByTabSwitch = false;
       }
     }
   });
 });
 
-// 3. Основная логика пропуска
+// 4. Основная логика авто-пропуска
 function skipEverything() {
   if (isSkipping || !chrome.runtime || !chrome.runtime.id) return;
 
   chrome.storage.local.get(['isEnabled'], (res) => {
-    if (chrome.runtime.lastError || res.isEnabled === false) return;
+    if (chrome.runtime.lastError || !res || res.isEnabled === false) return;
 
     const selectors = [
       'button.styles_button__rKMKL',
@@ -101,18 +130,25 @@ function skipEverything() {
       'button[class*="styles_button"]',
       'button[data-tid="component"]',
       '[data-test-id="skip-button"]',
-      '[data-test-id="next-episode-button"]'
+      '[data-test-id="next-episode-button"]',
+      'button[aria-label*="Пропустить"]',
+      'button[aria-label*="Следующая"]'
     ];
 
-    selectors.forEach((selector) => {
+    const processedButtons = new Set();
+
+    for (const selector of selectors) {
+      if (isSkipping) break;
+
       const buttons = document.querySelectorAll(selector);
 
-      buttons.forEach((btn) => {
-        if (isSkipping) return;
+      for (const btn of buttons) {
+        if (isSkipping || processedButtons.has(btn)) continue;
+        processedButtons.add(btn);
 
-        const btnText = btn.textContent ? btn.textContent.toLowerCase() : '';
+        const btnText = (btn.textContent || btn.getAttribute('aria-label') || '').toLowerCase();
         const isSkipOrNext = btnText.includes('пропустить') || btnText.includes('следующая серия');
-        const isVisible = btn.offsetParent !== null;
+        const isVisible = !!(btn.offsetWidth || btn.offsetHeight || btn.getClientRects().length);
 
         if (isVisible && isSkipOrNext) {
           isSkipping = true;
@@ -126,23 +162,38 @@ function skipEverything() {
 
           chrome.storage.local.get(['skippedCount'], (result) => {
             if (chrome.runtime.lastError) return;
-            const currentCount = result.skippedCount || 0;
+            const currentCount = (result && result.skippedCount) || 0;
             chrome.storage.local.set({ skippedCount: currentCount + 1 });
           });
 
           setTimeout(() => {
             isSkipping = false;
-          }, 2500);
+          }, 2000);
+
+          break;
         }
-      });
-    });
+      }
+    }
   });
 }
 
-// 4. MutationObserver
-const observer = new MutationObserver(() => {
+// 5. Оптимизированный MutationObserver (Троттлинг 300 мс)
+const observer = new MutationObserver((mutations) => {
+  const isToastMutation = mutations.every((m) => {
+    return m.target && (
+      m.target.id === 'kp-marathon-toast-container' ||
+      (m.target.parentElement && m.target.parentElement.id === 'kp-marathon-toast-container')
+    );
+  });
+
+  if (isToastMutation) return;
+
+  const now = Date.now();
+  if (now - lastScanTime < 300) return;
+
   if (!isProcessing) {
     isProcessing = true;
+    lastScanTime = now;
     requestAnimationFrame(() => {
       skipEverything();
       isProcessing = false;
@@ -150,5 +201,5 @@ const observer = new MutationObserver(() => {
   }
 });
 
+// Инициализация наблюдения
 observer.observe(document.body, { childList: true, subtree: true });
-skipEverything();
