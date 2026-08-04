@@ -1,0 +1,35 @@
+ПОДДЕРЖИВАЕМЫЕ БРАУЗЕРЫ (Chromium-based)
+
+Расширение создано на базе Manifest V3 и работает во всех браузерах на движке Chromium:
+
+[ПК - Windows / macOS / Linux]
+
+Google Chrome
+
+Яндекс Браузер (Yandex Browser)
+
+Microsoft Edge
+
+Opera / Opera GX
+
+Brave Browser
+
+Vivaldi
+
+Arc Browser
+
+Chromium
+
+[Мобильные браузеры с поддержкой расширений]
+
+Яндекс Браузер (Android)
+
+Kiwi Browser (Android)
+
+=== НЕ ПОДДЕРЖИВАЮТСЯ ===
+
+Mozilla Firefox (требуется адаптация манифеста под Firefox WebExtensions API)
+
+Apple Safari (требуется конвертация через Xcode для macOS / iOS)
+
+Стандартные мобильные Chrome / Safari / Edge (в них заблокирована установка ПК-расширений)
