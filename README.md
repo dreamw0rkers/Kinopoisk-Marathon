@@ -1,4 +1,6 @@
-# 🍿 Кинопоиск Марафон
+<h1 align="center">
+  <img src="icon.png" width="30" height="30"> Кинопоиск Марафон <img src="icon.png" width="30" height="30">
+</h1>
 
 <p align="center">
   <b>Умное расширение для комфортного просмотра сериалов на Кинопоиске</b>
