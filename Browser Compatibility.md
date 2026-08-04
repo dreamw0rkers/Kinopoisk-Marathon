@@ -4,16 +4,16 @@
 
 ## **💻 Десктопные браузеры (Desktop)**
 
-| Браузер | Платформы | Статус поддержки | Примечание |
+| Браузер | Платформы | Статус поддержки | Примечание (Notes) |
 | :---- | :---- | :---- | :---- |
-| **Google Chrome** | Windows / macOS / Linux | ✅ Полная | Основная платформа разработки |
-| **Яндекс Браузер** | Windows / macOS / Linux | ✅ Полная | Отлично оптимизировано |
-| **Microsoft Edge** | Windows / macOS / Linux | ✅ Полная | Все функции работают штатно |
-| **Opera / Opera GX** | Windows / macOS / Linux | ✅ Полная | Работает без ограничений |
-| **Brave Browser** | Windows / macOS / Linux | ✅ Полная | Требуется разрешить работы расширений |
-| **Vivaldi** | Windows / macOS / Linux | ✅ Полная | Полная совместимость |
-| **Arc Browser** | macOS / Windows | ✅ Полная | Полная совместимость |
-| **Chromium** | Linux / BSD | ✅ Полная | Полная совместимость |
+| **Google Chrome** | Windows / macOS / Linux | ✅ Полная(Full) | Основная платформа разработки |
+| **Яндекс Браузер** | Windows / macOS / Linux | ✅ Полная(Full) | Отлично оптимизировано |
+| **Microsoft Edge** | Windows / macOS / Linux | ✅ Полная(Full) | Все функции работают штатно |
+| **Opera / Opera GX** | Windows / macOS / Linux | ✅ Полная(Full) | Работает без ограничений |
+| **Brave Browser** | Windows / macOS / Linux | ✅ Полная(Full) | Требуется разрешить работы расширений |
+| **Vivaldi** | Windows / macOS / Linux | ✅ Полная(Full) | Полная совместимость  |
+| **Arc Browser** | macOS / Windows | ✅ Полная(Full) | Полная совместимость |
+| **Chromium** | Linux / BSD | ✅ Полная(Full) | Полная совместимость |
 
 ## **📱 Мобильные браузеры (Mobile)**
 
