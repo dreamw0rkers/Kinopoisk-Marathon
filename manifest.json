@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Кинопоиск Марафон",
+  "version": "1.0.0",
+  "description": "Автоматически пропускает рекламу и заставки на Кинопоиске.",
+  "permissions": ["storage"],
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "action": {
+    "default_icon": "icon.png",
+    "default_title": "Кинопоиск Марафон",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://hd.kinopoisk.ru/*",
+        "https://www.kinopoisk.ru/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
