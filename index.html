@@ -163,12 +163,12 @@
             margin-top: 0;
         }
 
-        .content-block h3 {
-            font-size: 18px;
-            margin-top: 16px;
-            margin-bottom: 8px;
-            color: var(--accent);
-        }
+       .content-block h3 {
+        font-size: 18px;
+        margin-top: 16px;
+        margin-bottom: 8px;
+        color: var(--text);
+    }
 
         .content-block p {
             color: var(--text-dim);
@@ -336,27 +336,27 @@
             <p align="center" style="color: var(--text-dim); font-style: italic;">Скоро здесь появятся красивые скриншоты PopUp и работы расширения 🎨</p>
 
             <h2>🛠️ Установка</h2>
-            
-            <h3>📥 Для браузеров на базе Chromium (Chrome, Яндекс Браузер, Edge, Opera, Brave и др.)</h3>
+            <h3>📥 Для браузеров на базе Chromium</h3>
+            <p>Chrome, Яндекс Браузер, Edge, Opera, Brave и другие.</p>
             <ol>
-                <li>Перейдите в раздел последнего <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon/releases/latest">релиза</a> и скачайте самый последний релиз.</li>
+                <li>Перейдите в раздел последнего <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon/releases/latest">релиза</a> и скачайте архив.</li>
                 <li>Распакуйте архив в любую удобную папку на компьютере.</li>
                 <li>Откройте страницу расширений в вашем браузере:
                     <ul>
                         <li><strong>Chrome / Яндекс:</strong> <code>chrome://extensions/</code></li>
-                        <li><strong>Edge:</strong> <code>edge://extensions/</code><br><small>P.S. в браузере Edge Режим Разработчика находится там же, только в противоположном углу.</small></li>
+                        <li><strong>Edge:</strong> <code>edge://extensions/</code></li>
                         <li><strong>Brave:</strong> <code>brave://extensions/</code></li>
                     </ul>
                 </li>
-                <li>Включите <strong>«Режим разработчика»</strong> (Developer mode) в правом верхнем углу.</li>
-                <li>Нажмите <strong>«Загрузить распакованное расширение»</strong> (Load unpacked) и выберите папку с распакованным проектом.</li>
+                <li>Включите <strong>«Режим разработчика»</strong> в правом верхнем углу.</li>
+                <li>Нажмите <strong>«Загрузить распакованное расширение»</strong> и выберите папку с проектом.</li>
             </ol>
 
-            <h3>🔄 Как обновить расширение?</h3>
+            <h2>🔄 Обновление</h2>
             <ol>
                 <li>Скачайте <code>.zip</code> архив из последнего <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon/releases/latest">релиза</a>.</li>
                 <li>Распакуйте архив в удобное место.</li>
-                <li>Откройте <code>chrome://extensions/</code> и включите <strong>«Режим разработчика»</strong> (если он ещё не включён).</li>
+                <li>Откройте <code>chrome://extensions/</code> и включите <strong>«Режим разработчика»</strong>.</li>
                 <li>Удалите старую версию расширения <code>Кинопоиск Марафон</code>.</li>
                 <li>Нажмите <strong>«Загрузить распакованное расширение»</strong> и выберите папку с новой версией.</li>
             </ol>
@@ -394,7 +394,7 @@
         </footer>
     </div>
 
-        <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const versionBadge = document.getElementById('versionBadge');
             const downloadBtn = document.getElementById('downloadBtn');
