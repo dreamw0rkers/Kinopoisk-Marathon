@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-1.2.0-red.svg?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/github/v/release/dreamw0rkers/Kinopoisk-Marathon?style=flat-square&label=Version&color=red" alt="Version">
   <img src="https://img.shields.io/badge/Manifest-V3-blue.svg?style=flat-square" alt="Manifest V3">
   <img src="https://img.shields.io/badge/License-GPL--3.0-green.svg?style=flat-square" alt="License">
   <img src="https://img.shields.io/badge/Made%20with-❤️-white.svg?style=flat-square" alt="Made with Love">
