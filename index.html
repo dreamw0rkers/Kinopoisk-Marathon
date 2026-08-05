@@ -37,7 +37,6 @@
             padding: 30px 20px;
         }
 
-        /* --- Header / Title --- */
         header {
             text-align: center;
             padding-bottom: 30px;
@@ -75,11 +74,22 @@
             gap: 8px;
         }
 
-        .badges img {
-            height: 22px;
+        .badge-pill {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            background: #2d2d35;
+            border: 1px solid var(--border);
         }
 
-        /* --- Hero / Download Section --- */
+        .badge-version { background: #e74c3c; }
+        .badge-manifest { background: #3498db; }
+        .badge-license { background: #2ecc71; }
+        .badge-love { background: #fff; color: #000; }
+
         .hero {
             background: var(--card);
             border: 1px solid var(--border);
@@ -132,7 +142,6 @@
             box-shadow: none;
         }
 
-        /* --- README Content Block --- */
         .content-block {
             background: var(--card);
             border: 1px solid var(--border);
@@ -176,7 +185,6 @@
             margin-bottom: 4px;
         }
 
-        /* --- Tables --- */
         .content-block table {
             width: 100%;
             border-collapse: collapse;
@@ -200,7 +208,6 @@
             color: var(--text-dim);
         }
 
-        /* --- Code blocks --- */
         .content-block code {
             background: #1e1e24;
             padding: 2px 8px;
@@ -223,7 +230,6 @@
             color: var(--text);
         }
 
-        /* --- Contributors Section --- */
         .contributors-section {
             margin-top: 12px;
             padding-top: 12px;
@@ -234,7 +240,6 @@
             margin: 8px 0 4px;
         }
 
-        /* --- Footer --- */
         footer {
             text-align: center;
             padding-top: 20px;
@@ -262,38 +267,31 @@
 </head>
 <body>
     <div class="container">
-
-        <!-- 1. HEADER (включая бейджи и иконки) -->
         <header>
             <div class="repo-title">
-                <img src="icon.png" alt="icon"> 
-                Кинопоиск Марафон 
-                <img src="icon.png" alt="icon">
+                <img src="icon.png" alt="Иконка Кинопоиск Марафон">
+                Кинопоиск Марафон
+                <img src="icon.png" alt="Иконка Кинопоиск Марафон">
             </div>
             <div class="repo-description">⚡ Умное расширение для комфортного просмотра фильмов и сериалов на Кинопоиске</div>
             <div class="badges">
-                <div class="badges">
-    <span style="background: #e74c3c; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #fff;">Version 1.2.0</span>
-    <span style="background: #3498db; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #fff;">Manifest V3</span>
-    <span style="background: #2ecc71; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #fff;">GPL-3.0</span>
-    <span style="background: #fff; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #000;">❤️ Made with Love</span>
-</div>
+                <span class="badge-pill badge-version" id="versionBadge">Загрузка...</span>
+                <span class="badge-pill badge-manifest">Manifest V3</span>
+                <span class="badge-pill badge-license">GPL-3.0</span>
+                <span class="badge-pill badge-love">❤️ Made with Love</span>
             </div>
         </header>
 
-        <!-- 2. HERO (Кнопка скачать) -->
         <div class="hero">
             <h2>🎬 Смотри сериалы нон-стоп без лишних кликов</h2>
             <p>Автоматический пропуск заставок, умная пауза и переход на следующую серию — всё в одном расширении.</p>
             <div>
-                <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon/archive/refs/heads/main.zip" class="btn">📥 Скачать ZIP (v1.2.0)</a>
+                <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon/archive/refs/heads/main.zip" class="btn">📥 Скачать ZIP</a>
                 <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon" class="btn btn-outline">🔗 GitHub</a>
             </div>
         </div>
 
-        <!-- 3. ОСНОВНОЙ КОНТЕНТ (Ваш README) -->
         <div class="content-block">
-
             <h2>🎬 О проекте</h2>
             <p><strong>Кинопоиск Марафон</strong> — это лёгкое и умное браузерное расширение, которое избавляет вас от рутинных действий при просмотре сериалов на Кинопоиске.</p>
             <p>Больше не нужно вручную ставить паузу, самому проматывать заставки, пропускать повторы или искать кнопку перехода на следующую серию. Всё это теперь доступно в одном расширении, которое работает <strong>без вашего участия</strong>.</p>
@@ -301,15 +299,36 @@
             <h2>✨ Что умеет расширение?</h2>
             <table>
                 <thead>
-                    <tr><th>Функция</th><th>Описание</th></tr>
+                    <tr>
+                        <th>Функция</th>
+                        <th>Описание</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr><td>⏭️ <strong>Автопропуск заставок</strong></td><td>Автоматически нажимает кнопки «Пропустить заставку» и «Пропустить титры» без задержек.</td></tr>
-                    <tr><td>📺 <strong>Автопереход к серии</strong></td><td>Мгновенно переключает на следующий эпизод в конце серии.</td></tr>
-                    <tr><td>⏸️ <strong>Умная пауза (Smart Pause)</strong></td><td>Автоматически ставит плеер на паузу при переключении на другую вкладку и возобновляет видео при возврате.</td></tr>
-                    <tr><td>🔔 <strong>Уведомления</strong></td><td>Аккуратные всплывающие сообщения информируют о сработавших действиях (работают даже в полноэкранном режиме).</td></tr>
-                    <tr><td>📊 <strong>Счётчик экономии</strong></td><td>Отслеживает количество пропущенных заставок прямо во всплывающем окне расширения.</td></tr>
-                    <tr><td>🧡 <strong>Интерфейс</strong></td><td>Приятный минималистичный интерфейс в черно-оранжевом цвете.</td></tr>
+                    <tr>
+                        <td>⏭️ <strong>Автопропуск заставок</strong></td>
+                        <td>Автоматически нажимает кнопки «Пропустить заставку» и «Пропустить титры» без задержек.</td>
+                    </tr>
+                    <tr>
+                        <td>📺 <strong>Автопереход к серии</strong></td>
+                        <td>Мгновенно переключает на следующий эпизод в конце серии.</td>
+                    </tr>
+                    <tr>
+                        <td>⏸️ <strong>Умная пауза (Smart Pause)</strong></td>
+                        <td>Автоматически ставит плеер на паузу при переключении на другую вкладку и возобновляет видео при возврате.</td>
+                    </tr>
+                    <tr>
+                        <td>🔔 <strong>Уведомления</strong></td>
+                        <td>Аккуратные всплывающие сообщения информируют о сработавших действиях (работают даже в полноэкранном режиме).</td>
+                    </tr>
+                    <tr>
+                        <td>📊 <strong>Счётчик экономии</strong></td>
+                        <td>Отслеживает количество пропущенных заставок прямо во всплывающем окне расширения.</td>
+                    </tr>
+                    <tr>
+                        <td>🧡 <strong>Интерфейс</strong></td>
+                        <td>Приятный минималистичный интерфейс в черно-оранжевом цвете.</td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -317,6 +336,7 @@
             <p align="center" style="color: var(--text-dim); font-style: italic;">Скоро здесь появятся красивые скриншоты PopUp и работы расширения 🎨</p>
 
             <h2>🛠️ Установка</h2>
+            
             <h3>📥 Для браузеров на базе Chromium (Chrome, Яндекс Браузер, Edge, Opera, Brave и др.)</h3>
             <ol>
                 <li>Перейдите в раздел последнего <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon/releases/latest">релиза</a> и скачайте самый последний релиз.</li>
@@ -324,7 +344,7 @@
                 <li>Откройте страницу расширений в вашем браузере:
                     <ul>
                         <li><strong>Chrome / Яндекс:</strong> <code>chrome://extensions/</code></li>
-                        <li><strong>Edge:</strong> <code>edge://extensions/</code> <br><small>P.S. в браузере Edge Режим Разработчика находится там же, только в противоположном углу.</small></li>
+                        <li><strong>Edge:</strong> <code>edge://extensions/</code><br><small>P.S. в браузере Edge Режим Разработчика находится там же, только в противоположном углу.</small></li>
                         <li><strong>Brave:</strong> <code>brave://extensions/</code></li>
                     </ul>
                 </li>
@@ -367,14 +387,35 @@
             <h2>🛡️ Лицензия</h2>
             <p>Этот проект распространяется под лицензией <strong>GNU General Public License v3.0 (GPL-3.0)</strong>.<br>
             Ознакомиться с полным текстом можно в файле <a href="LICENSE">LICENSE</a>.</p>
-
         </div>
 
-        <!-- 4. FOOTER -->
         <footer>
             <p>Сделано с <b>любовью</b> и <b>попкорном</b> для настоящих любителей <b>кино</b>.</p>
         </footer>
-
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const versionBadge = document.getElementById('versionBadge');
+            
+            fetch('https://api.github.com/repos/dreamw0rkers/Kinopoisk-Marathon/releases/latest')
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Релизов пока нет');
+                    }
+                })
+                .then(data => {
+                    const version = data.tag_name || data.name;
+                    if (version) {
+                        versionBadge.textContent = version.replace(/^v/, '');
+                    }
+                })
+                .catch(error => {
+                    console.log('Релизов не найдено, оставляем дефолтную версию');
+                });
+        });
+    </script>
 </body>
 </html>
