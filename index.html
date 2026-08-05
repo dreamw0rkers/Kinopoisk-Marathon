@@ -286,7 +286,7 @@
             <h2>🎬 Смотри сериалы нон-стоп без лишних кликов</h2>
             <p>Автоматический пропуск заставок, умная пауза и переход на следующую серию — всё в одном расширении.</p>
             <div>
-                <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon/archive/refs/heads/main.zip" class="btn">📥 Скачать ZIP</a>
+                <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon/releases/latest" id="downloadBtn" class="btn">📥 Скачать ZIP</a>
                 <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon" class="btn btn-outline">🔗 GitHub</a>
             </div>
         </div>
@@ -394,9 +394,10 @@
         </footer>
     </div>
 
-    <script>
+        <script>
         document.addEventListener('DOMContentLoaded', function() {
             const versionBadge = document.getElementById('versionBadge');
+            const downloadBtn = document.getElementById('downloadBtn');
             
             fetch('https://api.github.com/repos/dreamw0rkers/Kinopoisk-Marathon/releases/latest')
                 .then(response => {
@@ -410,6 +411,13 @@
                     const version = data.tag_name || data.name;
                     if (version) {
                         versionBadge.textContent = version.replace(/^v/, '');
+                    }
+                    
+                    const zipAsset = data.assets.find(asset => asset.name.endsWith('.zip'));
+                    if (zipAsset) {
+                        downloadBtn.href = zipAsset.browser_download_url;
+                    } else {
+                        downloadBtn.href = data.zipball_url;
                     }
                 })
                 .catch(error => {
