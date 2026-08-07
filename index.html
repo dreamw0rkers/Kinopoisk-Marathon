@@ -567,6 +567,17 @@
             panel.classList.remove('open');
             overlay.classList.remove('open');
         });
+        
+        fetch('https://api.indexnow.org/IndexNow', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                host: "dreamw0rkers.github.io",
+                key: "378d981bd5684d82934b10458a2a9a55",
+                keyLocation: "https://dreamw0rkers.github.io/Kinopoisk-Marathon/378d981bd5684d82934b10458a2a9a55.txt",
+                urlList: ["https://dreamw0rkers.github.io/Kinopoisk-Marathon/"]
+            })
+        });
     </script>
 </body>
 </html>
