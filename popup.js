@@ -4,16 +4,17 @@ const resetBtn = document.getElementById('resetBtn');
 const skipCount = document.getElementById('skipCount');
 const heroCard = document.getElementById('heroCard');
 const heroStatusText = document.getElementById('heroStatusText');
-const smartPauseCard = document.getElementById('smartPauseCard'); // Добавлено
+const smartPauseCard = document.getElementById('smartPauseCard');
+const smartPauseStatusText = document.getElementById('smartPauseStatusText');
 
 function updateHeroVisual(isOn) {
   heroCard.classList.toggle('on', isOn);
   heroStatusText.textContent = isOn ? 'активен · идёт марафон' : 'выключен';
 }
 
-// Новая функция для умной паузы
 function updateSmartPauseVisual(isOn) {
   smartPauseCard.classList.toggle('on', isOn);
+  smartPauseStatusText.textContent = isOn ? 'активна' : 'выключена';
 }
 
 function animateCount(newValue) {
@@ -41,11 +42,11 @@ chrome.storage.local.get(['isEnabled', 'autoPause', 'skippedCount'], (res) => {
   updateHeroVisual(isOn);
   
   autoPauseState.checked = res.autoPause === true;
-  updateSmartPauseVisual(autoPauseState.checked); // Обновляем свечение умной паузы
+  updateSmartPauseVisual(autoPauseState.checked);
   
   skipCount.textContent = res.skippedCount || 0;
 
-  // Снимаем блокировку анимаций (включаем плавные переходы)
+  // Снимаем блокировку анимаций
   heroCard.style.transition = '';
   heroCard.style.animation = '';
   document.body.classList.remove('no-transition');
@@ -57,7 +58,7 @@ toggleState.addEventListener('change', () => {
   updateHeroVisual(toggleState.checked);
 });
 
-// Сохранение «Умной паузы» и обновление её свечения
+// Сохранение «Умной паузы» + обновление статуса
 autoPauseState.addEventListener('change', () => {
   chrome.storage.local.set({ autoPause: autoPauseState.checked });
   updateSmartPauseVisual(autoPauseState.checked);

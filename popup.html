@@ -29,8 +29,6 @@
     overflow-x: hidden;
   }
 
-  /* --- signature element: perforation edge --- */
- 
   .content { padding: 16px 16px 0; }
 
   .header {
@@ -59,7 +57,6 @@
     margin-top: 1px;
   }
 
-  /* --- hero toggle --- */
   .hero {
     position: relative;
     background: linear-gradient(160deg, var(--card-2), var(--card));
@@ -88,13 +85,13 @@
     font-weight: 700;
     letter-spacing: 0.01em;
   }
-  .hero-status {
-    font-size: 11px;
-    margin-top: 2px;
-    color: var(--text-dim);
+  .hero-status, .smart-status {
     display: flex;
     align-items: center;
     gap: 5px;
+    font-size: 11px;
+    margin-top: 4px;
+    color: var(--text-dim);
   }
   .dot {
     width: 6px;
@@ -110,13 +107,49 @@
   }
   .hero.on .hero-status { color: var(--accent-2); }
 
-    .card.on {
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .card.on {
     border-color: rgba(255, 122, 26, 0.55);
     box-shadow: 0 0 0 1px rgba(255,122,26,0.12), 0 8px 20px -6px var(--glow);
     animation: pulse 6.6s ease-in-out infinite;
   }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .row-text { min-width: 0; }
+  .row-title {
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+  .row-desc {
+    font-size: 10.5px;
+    color: var(--text-dim);
+    margin-top: 2px;
+    line-height: 1.35;
+  }
+  /* Статусная строка для умной паузы */
+  .smart-status .dot {
+    background: var(--text-dim);
+    box-shadow: none;
+  }
+  .card.on .smart-status {
+    color: var(--accent-2);
+  }
+  .card.on .smart-status .dot {
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+  }
 
-  /* --- switches --- */
+  /* switches */
   .switch {
     position: relative;
     width: 40px;
@@ -159,33 +192,6 @@
     outline-offset: 2px;
   }
 
-  /* --- secondary card --- */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 14px;
-    margin-bottom: 10px;
-  }
-  .row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .row-text { min-width: 0; }
-  .row-title {
-    font-size: 12.5px;
-    font-weight: 600;
-  }
-  .row-desc {
-    font-size: 10.5px;
-    color: var(--text-dim);
-    margin-top: 2px;
-    line-height: 1.35;
-  }
-
-  /* --- counter card --- */
   .counter-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -259,14 +265,13 @@
     margin-top: 12px;
     letter-spacing: 0.03em;
   }
-    body.no-transition * {
+  body.no-transition * {
     transition: none !important;
     animation: none !important;
   }
 </style>
 </head>
 <body class="no-transition">
-
 
   <div class="content">
     <div class="header">
@@ -288,11 +293,13 @@
       </label>
     </div>
 
-        <div class="card" id="smartPauseCard">
+    <div class="card" id="smartPauseCard">
       <div class="row">
         <div class="row-text">
           <div class="row-title">Умная пауза</div>
           <div class="row-desc">Останавливает видео при уходе с вкладки</div>
+          <!-- Новая статусная строка -->
+          <div class="smart-status"><span class="dot"></span><span id="smartPauseStatusText">выключена</span></div>
         </div>
         <label class="switch">
           <input type="checkbox" id="autoPauseState">
@@ -312,7 +319,7 @@
       <button class="reset-btn" id="resetBtn">Сбросить счётчик</button>
     </div>
 
-    <div class="footer">KINOPOISK MARATHON · v1.2.0</div>
+    <div class="footer">KINOPOISK MARATHON · v1.2.1</div>
   </div>
 
   <script src="popup.js"></script>
