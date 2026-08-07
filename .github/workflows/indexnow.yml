@@ -1,0 +1,22 @@
+name: IndexNow Notification
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send URLs to IndexNow
+        run: |
+          curl -X POST "https://api.indexnow.org/IndexNow" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "host": "dreamw0rkers.github.io",
+              "key": "378d981bd5684d82934b10458a2a9a55",
+              "keyLocation": "https://dreamw0rkers.github.io/Kinopoisk-Marathon/378d981bd5684d82934b10458a2a9a55.txt",
+              "urlList": [
+                "https://dreamw0rkers.github.io/Kinopoisk-Marathon/"
+              ]
+            }'
