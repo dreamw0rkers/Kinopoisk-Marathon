@@ -15,8 +15,10 @@
         :root {
             --bg: #0c0c0e;
             --card: #17171b;
+            --card-2: #1c1c21;
             --border: #29292f;
             --accent: #ff7a1a;
+            --accent-2: #ffb020;
             --text: #f5f5f2;
             --text-dim: #8b8b93;
             --glow: rgba(255, 122, 26, 0.25);
@@ -170,12 +172,12 @@
             margin-top: 0;
         }
 
-       .content-block h3 {
-        font-size: 18px;
-        margin-top: 16px;
-        margin-bottom: 8px;
-        color: var(--text);
-    }
+        .content-block h3 {
+            font-size: 18px;
+            margin-top: 16px;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
 
         .content-block p {
             color: var(--text-dim);
@@ -237,15 +239,113 @@
             color: var(--text);
         }
 
-        .contributors-section {
-            margin-top: 12px;
-            padding-top: 12px;
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(2px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 99;
+        }
+        .overlay.open {
+            opacity: 1;
+            visibility: visible;
         }
 
-        .contributors-section img {
-            display: block;
-            margin: 8px 0 4px;
+        .slide-panel {
+            position: fixed;
+            top: 0;
+            right: -340px;
+            width: 300px;
+            height: 100%;
+            background: var(--card);
+            border-left: 1px solid var(--border);
+            padding: 24px 20px;
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            overflow-y: auto;
+            box-shadow: -8px 0 30px rgba(0,0,0,0.4);
         }
+        .slide-panel.open { right: 0; }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .panel-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .close-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-dim);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .close-btn:hover {
+            background: var(--card-2);
+            color: var(--text);
+            border-color: var(--accent);
+        }
+
+        .contributor-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            transition: background 0.2s ease;
+        }
+        .contributor-item:hover { background: var(--card-2); }
+        .contributor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            flex-shrink: 0;
+        }
+        .contributor-info { min-width: 0; }
+        .contributor-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .contributor-role {
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-top: 2px;
+        }
+
+        .open-panel-btn {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #14140f;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .open-panel-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px var(--glow);
+        }
+        .open-panel-btn:active { transform: scale(0.97); }
 
         footer {
             text-align: center;
@@ -346,8 +446,8 @@
             <h3>📥 Для браузеров на базе Chromium</h3>
             <p>Chrome, Яндекс Браузер, Edge, Opera, Brave и другие.</p>
             <ol>
-                <li>Перейдите в раздел последнего <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon/releases/latest">релиза</a> и скачайте архив.</li>
-                <li>Распакуйте архив в любую удобную папку на компьютере.</li>
+                <li>Скачайте <code>.zip</code> или <code>.7z</code> архив из последнего <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon/releases/latest">релиза</a>.</li>
+                <li>Распакуйте архив в удобное место.</li>
                 <li>Откройте страницу расширений в вашем браузере:
                     <ul>
                         <li><strong>Chrome / Яндекс:</strong> <code>chrome://extensions/</code></li>
@@ -361,7 +461,7 @@
 
             <h2>🔄 Обновление</h2>
             <ol>
-                <li>Скачайте <code>.zip</code> архив из последнего <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon/releases/latest">релиза</a>.</li>
+                <li>Скачайте <code>.zip</code> или <code>.7z</code> архив из последнего <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon/releases/latest">релиза</a>.</li>
                 <li>Распакуйте архив в удобное место.</li>
                 <li>Откройте <code>chrome://extensions/</code> и включите <strong>«Режим разработчика»</strong>.</li>
                 <li>Удалите старую версию расширения <code>Кинопоиск Марафон</code>.</li>
@@ -376,11 +476,25 @@
             Если нашли баг или есть идея для фичи — создайте <a href="https://github.com/dreamw0rkers/Kinopoisk-Marathon/issues/new">Issue</a>.</p>
             <p>Все, кто помогает проекту, попадают в почётный список контрибьюторов ниже:</p>
 
-            <div class="contributors-section">
-                <a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square" alt="All Contributors"></a>
-                <h3>👥 Контрибьюторы</h3>
-                <!-- ALL-CONTRIBUTORS-LIST:START -->
-                <!-- ALL-CONTRIBUTORS-LIST:END -->
+            <button class="open-panel-btn" id="openPanel">Контрибьюторы</button>
+
+            <div class="overlay" id="overlay"></div>
+
+            <div class="slide-panel" id="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Контрибьюторы</span>
+                    <button class="close-btn" id="closePanel">✕</button>
+                </div>
+
+                <div class="contributor-item">
+                    <img class="contributor-avatar" src="https://avatars.githubusercontent.com/u/313347039?v=4" alt="">
+                    <div class="contributor-info">
+                        <div class="contributor-name">Skora</div>
+                        <div class="contributor-role">Хороший Человек</div>
+                    </div>
+                </div>
+
+                
             </div>
 
             <h2>🙌 Как помочь проекту?</h2>
@@ -402,10 +516,11 @@
     </div>
 
     <script>
+        // Версия и ссылка на скачивание
         document.addEventListener('DOMContentLoaded', function() {
             const versionBadge = document.getElementById('versionBadge');
             const downloadBtn = document.getElementById('downloadBtn');
-            
+
             fetch('https://api.github.com/repos/dreamw0rkers/Kinopoisk-Marathon/releases/latest')
                 .then(response => {
                     if (response.ok) {
@@ -419,7 +534,7 @@
                     if (version) {
                         versionBadge.textContent = version.replace(/^v/, '');
                     }
-                    
+
                     const zipAsset = data.assets.find(asset => asset.name.endsWith('.zip'));
                     if (zipAsset) {
                         downloadBtn.href = zipAsset.browser_download_url;
@@ -430,6 +545,27 @@
                 .catch(error => {
                     console.log('Релизов не найдено, оставляем дефолтную версию');
                 });
+        });
+
+        // Панель контрибьюторов
+        const openBtn = document.getElementById('openPanel');
+        const panel = document.getElementById('panel');
+        const overlay = document.getElementById('overlay');
+        const closeBtn = document.getElementById('closePanel');
+
+        openBtn.addEventListener('click', () => {
+            panel.classList.add('open');
+            overlay.classList.add('open');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            panel.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+
+        overlay.addEventListener('click', () => {
+            panel.classList.remove('open');
+            overlay.classList.remove('open');
         });
     </script>
 </body>
